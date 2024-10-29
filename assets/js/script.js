@@ -2,7 +2,7 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
-// Todo: create a function to generate a unique task id
+// FUNCTION TO GENERATE UNIQUE TASK ID AND STORE TO LOCALSTORAGE
 function generateTaskId() {
     if (nextId === null) {
         nextId = 1;
@@ -13,19 +13,14 @@ function generateTaskId() {
     return nextId;
 }
 
-// Todo: create a function to create a task card
+// FUNCTION TO GENERATE TASK CARDS
 function createTaskCard(task) {
-    const taskCard = $('<div>')
-        .addClass('card w-75 task-card draggable my-3')
-        .attr('data-task-id', task.id);
+    const taskCard = $('<div>').addClass('card w-75 task-card draggable my-3').attr('data-task-id', task.id);
     const cardHeader = $('<div>').addClass('card-header h4').text(task.title);
     const cardBody = $('<div>').addClass('bard-body');
     const cardDescription = $('<p>').addClass('card-text').text(task.description);
     const cardDueDate = $('<p>').addClass('card-text').text(task.dueDate);
-    const cardDeleteBtn = $('<button>')
-        .addClass('btn btn-danger delete')
-        .text('Delete')
-        .attr('data-task-id', task.id);
+    const cardDeleteBtn = $('<button>').addClass('btn btn-danger delete').text('Delete').attr('data-task-id', task.id);
     cardDeleteBtn.on('click', handleDeleteTask);
 
     if (task.dueDate && task.status !== 'done') {
@@ -45,7 +40,7 @@ function createTaskCard(task) {
     return taskCard;
 }
 
-// Todo: create a function to render the task list and make cards draggable
+// FUNCTION TO RENDER TASK LIST AND MAKE ITEMS DRAGGABLE
 function renderTaskList() {
     if (!taskList) {
         taskList = [];
@@ -69,6 +64,7 @@ function renderTaskList() {
         }
     }
 
+    //PORTION TO MAKE ITEMS DRAGGABLE
     $('.draggable').draggable({
         opacity: 0.7,
         zIndex: 100,
@@ -83,7 +79,7 @@ function renderTaskList() {
     });
 }
 
-// Todo: create a function to handle adding a new task
+// FUNCTION TO TAKE CARE OF ADDING NEW TASKS, STORE TO LOCALSTORAGE
 function handleAddTask(event){
     event.preventDefault();
     const task = {
@@ -101,7 +97,7 @@ function handleAddTask(event){
     $('#taskDueDate').val('');
 }
 
-// Todo: create a function to handle deleting a task
+// FUNCTION TO ALLOW TASK DELETION
 function handleDeleteTask(event){
     event.preventDefault();
     const taskId = $(this).attr('data-task-id');
@@ -110,7 +106,7 @@ function handleDeleteTask(event){
     renderTaskList();
 }
 
-// Todo: create a function to handle dropping a task into a new status lane
+// FUNCTION TO ALLOW TASKS TO BE IN DIFFERENT CATEGORY
 function handleDrop(event, ui) {
     const taskId = ui.draggable[0].dataset.taskId;
     const newStatus = event.target.id;
@@ -124,7 +120,7 @@ function handleDrop(event, ui) {
     renderTaskList();
 }
 
-// Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
+// FUNCTION TO RENDER EVERYTHING AND MAKE IT ALL WRAPPED UP NICELY IN ONE LITTLE PACKAGE
 $(document).ready(function () {
     renderTaskList();
     $('#taskForm').on('submit', handleAddTask);
